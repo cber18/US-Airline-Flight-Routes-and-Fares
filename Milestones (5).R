@@ -1,0 +1,133 @@
+#                   Milestone 3
+# Histogram of Airline Fares
+
+hist(Airlines$fare, main = "Histogram of Fare prices", xlab = "Average Fare", ylab = "Quantity of people paying Fares", horizontal = TRUE)
+
+# Histogram of Passengers on each airline
+
+hist(Airlines$passengers, main = "Histogram of Passengers", xlab = "Amount of Passengers", ylab = "Number of Airlines")
+
+# Histogram of Distance between Airports
+
+hist(Airlines$nsmiles, main = "Histogram of Distance between Airports", xlab = "Distance(in miles)", ylab = "Number of Airplanes")
+
+# Histogram of Flights taken Yearly
+
+hist(Airlines$Year, main = "Histogram of Flights taken Yearly", xlab = "Year", ylab = "Number of Flights")
+
+#                   Milestone 4
+# Histogram of Trimmed Data For Passengers
+
+Airlines2 <- subset(Airlines, passengers < 1100)
+hist(Airlines2$passengers, main = "Histogram of Trimmed Data For Passengers", xlab = "Passengers", ylab = "Number of Airlines")
+
+#                   Milestone 5
+# Mean, Median, Variance, and Standard Deviation for Airline Fares
+
+mean(Airlines$fare) = 218.9796
+median(Airlines$fare) = 209.32
+var(Airlines$fare) = 6785.226
+sd(Airlines$fare) = 82.37249
+
+# Mean, Median, Variance, and Standard Deviation for Trimmed Data for Passengers
+
+Airlines2 <- subset(Airlines, passengers < 1100)
+mean(Airlines2$passengers) = 190.7183
+median(Airlines2$passengers) = 95
+var(Airlines2$passengers) = 56525.9
+sd(Airlines2$passengers) = 237.7518
+
+#                   Milestone 6
+# Scatter plot of Passengers (x axis) by the Average Fare price(y axis)
+
+Airlines2 <- subset(Airlines, passengers < 1100)
+plot(fare ~ passengers, data = Airlines2, xlab = "Number of Passengers by Airline", ylab = "Average Fare Price", main = "Scatterplot of Passengers by Airline to the Average Fare Prices by Airline")
+
+# Correlation of the average fare price and number of passengers
+
+corr(Airlines2$fare, Airlines2$passengers) = -0.2086873
+
+#                   Milestone 7
+
+# 95% confidence interval for Distance between Airports (nsmiles)
+milesdata <- airlines$nsmiles
+xbar <- mean(milesdata)
+s <- sd(milesdata)
+n <- 245955
+t <- qt(0.975, n-1)
+L <- xbar - t*s/sqrt(n) = 1187.033
+U <- xbar + t*s/sqrt(n) = 1192.591
+
+# The 95% confidence interval for the mean of Distance between Airports is (1187.033 - 1193.591)
+
+
+# 95% confidence interval for Average Fare price (fare)
+
+faredata <- airlines$fare
+xbar2 <- mean(faredata)
+s2 <- sd(faredata)
+t2 <- qt(0.975, n-1)
+L2 <- xbar2 - t2*s2/sqrt(n) = 218.654
+U2 <- xbar2 + t2*s2/sqrt(n) = 219.3051
+
+# The 95% confidence interval for the mean of Average Fare Prices is (218.654 - 219.3051)
+
+#                   Milestone 8
+
+#                   Regression Line
+Airlines.lm <- lm(fare ~ nsmiles, data = Airlines)
+Airlines.lm = 149.23032(Intercept), 0.05862(nsmiles)
+
+#                   R squared value
+summary(Airlines.lm)$r.squared = 0.2504067
+
+#                   P-value
+summary(Airlines.lm) = 2.2e-16
+
+#                   Histogram of Residuals
+hist(resid(Airlines.lm), xlab = "Residuals of Linear Model ", main = "Residuals of Average Fare Price and Distance of Airlines")
+
+#                   Scatterplot of Miles vs Fare Price
+plot(Airlines$nsmiles, Airlines$fare, xlab = "Airline Distance (In Miles)", ylab = "Average Fare Price", main = "Scatterplot of Average Fare Price Compared to the Airline Distance")
+
+#                   Milestone 9
+
+# Is Delta a more expensive Airline than the others?
+# H(nought): E[X](nought) > E[X](alternative)
+# H(alternative): E[X](nought) != E[X](alternative)
+
+DeltaAvgFare <- Airlines$fare[Airlines$carrier_low == "DL"]
+OtherAvgFares <- Airlines$fare[Airlines$carrier_low != "DL"]
+xbar <- mean(DeltaAvgFare, na.rm = TRUE)
+s <- sd(DeltaAvgFare, na.rm = TRUE)
+n <- sum(!is.na(DeltaAvgFare))
+mu0 <- mean(OtherAvgFares, na.rm = TRUE)
+Z <- (xbar - mu0)/(s/sqrt(n))
+Z = 30.8
+
+#                   Milestone 10
+
+# Calculates Average Fare Price per mile Flown
+air$fare <- as.numeric(air$fare)
+air$nsmiles <- as.numeric(air$nsmiles)
+air$fare_per_mile <- air$fare/air$nsmiles
+air_clean <- subset(air, !is.na(nsmiles), nsmiles > 0)
+less_than <- subset(air_clean, nsmiles < 500)
+greater_than <- subset(air_clean, nsmiles >= 500)
+mean_less <- mean(less_than$fare_per_mile, na.rm = TRUE)
+mean_greater <- mean(greater_than$fare_per_mile, na.rm = TRUE)
+
+# Creates a boxplot of Fare per Mile for flights under and above 500 Miles
+boxplot(less_than$fare_per_mile,
+        greater_than$fare_per_mile,
+        names = c("Under 500 miles", "500 miles or more"),
+        ylab = "Fare per mile ($)",
+        main = "Fare per Mile: Short vs Long Domestic Flights")
+
+
+
+
+
+
+
+
